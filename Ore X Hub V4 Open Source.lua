@@ -17,17 +17,17 @@ local kamuiUPActivated = false
 local speedHackActivated = false
 local shinraKillActivated = false
 
--- Função para criar a bola preta do KamuiTP e teleportar
+
 local function createKamuiTPBall(targetPosition)
     local character = player.Character or player.CharacterAdded:Wait()
     local rootPart = character:WaitForChild("HumanoidRootPart")
 
-    -- Criar a bola preta na posição de destino
+
     local ball = Instance.new("Part")
     ball.Shape = Enum.PartType.Ball
     ball.Size = Vector3.new(2, 2, 2)
     ball.Position = targetPosition
-    ball.Color = Color3.fromRGB(0, 0, 0)  -- Cor preta
+    ball.Color = Color3.fromRGB(0, 0, 0)  
     ball.Anchored = true
     ball.CanCollide = false
     ball.Parent = workspace
@@ -35,19 +35,16 @@ local function createKamuiTPBall(targetPosition)
     -- Animação de crescimento da bola
     local tweenService = game:GetService("TweenService")
     local tweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-    local goal = {Size = Vector3.new(6, 6, 6)}  -- Tamanho final da bola
+    local goal = {Size = Vector3.new(6, 6, 6)} 
     local tween = tweenService:Create(ball, tweenInfo, goal)
     tween:Play()
 
-    -- Teletransportar o jogador para a posição da bola
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-    humanoidRootPart.CFrame = CFrame.new(targetPosition)  -- Teleporta o jogador para a posição da bola
+    humanoidRootPart.CFrame = CFrame.new(targetPosition) 
 
-    -- Remover a bola após 0.5 segundos
     game:GetService("Debris"):AddItem(ball, 0.5)
 end
 
--- Função para criar a bola de Shinra Tensei
 local function createKillBall()
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
@@ -75,82 +72,72 @@ local function createKillBall()
     game:GetService("Debris"):AddItem(ball, 0.5)
 end
 
--- Função para criar a Part de KamuiUP
 local function createPartAbovePlayer()
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-    -- Cria a Part acima do jogador
     local part = Instance.new("Part")
-    part.Size = Vector3.new(10, 10, 10)  -- Tamanho da Part
-    part.Position = humanoidRootPart.Position + Vector3.new(0, 100, 0)  -- 100 studs acima
-    part.Anchored = true  -- A Part ficará no lugar
-    part.CanCollide = true  -- A Part não vai colidir com outras partes
-    part.Color = Color3.fromRGB(0, 255, 0)  -- Cor verde
-    part.Parent = workspace  -- Coloca a part no workspace
+    part.Size = Vector3.new(10, 10, 10) 
+    part.Position = humanoidRootPart.Position + Vector3.new(0, 100, 0) 
+    part.Anchored = true 
+    part.CanCollide = true 
+    part.Color = Color3.fromRGB(0, 255, 0)  
+    part.Parent = workspace  
 
-    -- Teletransporta o jogador para a Part
-    humanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 5, 0)  -- Ajusta a altura para o jogador não ficar dentro da Part
+    humanoidRootPart.CFrame = part.CFrame + Vector3.new(0, 5, 0)  
 
-    -- Espera 10 segundos antes de destruir a part
     wait(10)
-    part:Destroy()  -- Destrói a Part após 10 segundos
+    part:Destroy() 
 end
 
--- Função para criar o botão KamuiTP (com alternância de cor)
 local function createKamuiTPButton(parent)
     kamuiTPButton = Instance.new("TextButton")
     kamuiTPButton.Size = UDim2.new(0.8, 0, 0.1, 0)
     kamuiTPButton.Position = UDim2.new(0.1, 0, 0.2, 0)
     kamuiTPButton.Text = "KamuiTP (G)"
     kamuiTPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    kamuiTPButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Cor inicial
+    kamuiTPButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) 
     kamuiTPButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
     kamuiTPButton.TextSize = 18
     kamuiTPButton.Font = Enum.Font.SourceSans
     kamuiTPButton.Parent = parent
 
-    -- Alterna entre verde e cinza ao clicar
     kamuiTPButton.MouseButton1Click:Connect(function()
         kamuiActivated = not kamuiActivated
         kamuiTPButton.BackgroundColor3 = kamuiActivated and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(70, 70, 70)
     end)
 end
 
--- Função para criar o botão ShinraTensei (com alternância de cor)
 local function createShinraTenseiButton(parent)
     shinraTenseiButton = Instance.new("TextButton")
     shinraTenseiButton.Size = UDim2.new(0.8, 0, 0.1, 0)
     shinraTenseiButton.Position = UDim2.new(0.1, 0, 0.35, 0)
     shinraTenseiButton.Text = "Shinra Tensei (B)"
     shinraTenseiButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    shinraTenseiButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Cor inicial
+    shinraTenseiButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) 
     shinraTenseiButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
     shinraTenseiButton.TextSize = 18
     shinraTenseiButton.Font = Enum.Font.SourceSans
     shinraTenseiButton.Parent = parent
 
-    -- Alterna entre verde e cinza ao clicar
     shinraTenseiButton.MouseButton1Click:Connect(function()
         shinraTenseiActivated = not shinraTenseiActivated
         shinraTenseiButton.BackgroundColor3 = shinraTenseiActivated and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(70, 70, 70)
     end)
 end
 
--- Função para criar o botão KamuiUP (com alternância de cor)
 local function createKamuiUPButton(parent)
     kamuiUPButton = Instance.new("TextButton")
     kamuiUPButton.Size = UDim2.new(0.8, 0, 0.1, 0)
     kamuiUPButton.Position = UDim2.new(0.1, 0, 0.5, 0)
     kamuiUPButton.Text = "KamuiUP (F)"
     kamuiUPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    kamuiUPButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Cor inicial
+    kamuiUPButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     kamuiUPButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
     kamuiUPButton.TextSize = 18
     kamuiUPButton.Font = Enum.Font.SourceSans
     kamuiUPButton.Parent = parent
 
-    -- Alterna entre verde e cinza ao clicar
     kamuiUPButton.MouseButton1Click:Connect(function()
         kamuiUPActivated = not kamuiUPActivated
         kamuiUPButton.BackgroundColor3 = kamuiUPActivated and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(70, 70, 70)
@@ -164,69 +151,61 @@ local function createSpeedHackButton(parent)
     speedHackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     speedHackButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
         speedHackButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    speedHackButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Cor inicial
+    speedHackButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) 
     speedHackButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
     speedHackButton.TextSize = 18
     speedHackButton.Font = Enum.Font.SourceSans
     speedHackButton.Parent = parent
 
-    -- Alterna entre verde e cinza ao clicar
     speedHackButton.MouseButton1Click:Connect(function()
         speedHackActivated = not speedHackActivated
         speedHackButton.BackgroundColor3 = speedHackActivated and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(70, 70, 70)
     end)
 end
 
--- Função para criar o botão ShinraKill (com alternância de cor)
 local function createShinraKillButton(parent)
     shinraKillButton = Instance.new("TextButton")
     shinraKillButton.Size = UDim2.new(0.8, 0, 0.1, 0)
     shinraKillButton.Position = UDim2.new(0.1, 0, 0.8, 0)
     shinraKillButton.Text = "Shinra Kill"
     shinraKillButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    shinraKillButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) -- Cor inicial
+    shinraKillButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70) 
     shinraKillButton.BorderColor3 = Color3.fromRGB(255, 255, 255)
     shinraKillButton.TextSize = 18
     shinraKillButton.Font = Enum.Font.SourceSans
     shinraKillButton.Parent = parent
 
-    -- Alterna entre verde e cinza ao clicar
     shinraKillButton.MouseButton1Click:Connect(function()
         shinraKillActivated = not shinraKillActivated
         shinraKillButton.BackgroundColor3 = shinraKillActivated and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(70, 70, 70)
 
-        _G.KillAura = shinraKillActivated -- Ativa ou desativa o KillAura
+        _G.KillAura = shinraKillActivated 
 
-        -- Executa o script KillAura quando ativado
         if shinraKillActivated then
             while _G.KillAura do
-                wait(0.1) -- Aguarda 0.1 segundos para não sobrecarregar o servidor
+                wait(0.1) 
 
-                -- Itera por todos os objetos dentro de "Enemies" no Workspace
                 for _, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                     if v:FindFirstChild("HumanoidRootPart") then
-                        -- Cria a bola quando encontrar o NPC e tiver a HumanoidRootPart
                         local ball = Instance.new("Part")
                         ball.Name = "KillBall"
                         ball.Shape = Enum.PartType.Ball
                         ball.Size = Vector3.new(5, 5, 5)
-                        ball.Position = v.HumanoidRootPart.Position -- Posiciona a bola na HumanoidRootPart
-                        ball.Color = Color3.fromRGB(255, 255, 255) -- Cor branca
+                        ball.Position = v.HumanoidRootPart.Position 
+                        ball.Color = Color3.fromRGB(255, 255, 255) 
                         ball.Anchored = true
                         ball.CanCollide = false
                         ball.Parent = workspace
 
-                        -- Detecta colisões com o NPC
                         ball.Touched:Connect(function(hit)
                             if hit.Parent:FindFirstChild("Humanoid") then
                                 local humanoid = hit.Parent:FindFirstChild("Humanoid")
                                 if humanoid then
-                                    humanoid.Health = 0 -- Mata o NPC
+                                    humanoid.Health = 0 
                                 end
                             end
                         end)
 
-                        -- Remove a bola após 0.5 segundos
                         game:GetService("Debris"):AddItem(ball, 0.5)
                     end
                 end
@@ -235,7 +214,6 @@ local function createShinraKillButton(parent)
     end)
 end
 
--- Criar OreHUB
 local function createOreHUB()
     oreHUB = Instance.new("ScreenGui")
     oreHUB.Name = "OreHUB"
@@ -244,7 +222,7 @@ local function createOreHUB()
     local mainFrame = Instance.new("Frame")
     mainFrame.Size = UDim2.new(0.4, 0, 0.6, 0)
     mainFrame.Position = UDim2.new(0.3, 0, 0.2, 0)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(48, 0, 48)  -- Cor roxa escura
+    mainFrame.BackgroundColor3 = Color3.fromRGB(48, 0, 48) 
     mainFrame.BorderSizePixel = 2
     mainFrame.Parent = oreHUB
 
@@ -253,7 +231,6 @@ local function createOreHUB()
     titleBar.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     titleBar.Parent = mainFrame
 
-    -- Título do OreHUB
     local titleLabel = Instance.new("TextLabel")
     titleLabel.Size = UDim2.new(1, 0, 1, 0)
     titleLabel.Text = "Ore X Hub"
@@ -277,54 +254,45 @@ local function createOreHUB()
     createKamuiTPButton(mainFrame)
     createShinraTenseiButton(mainFrame)
     createKamuiUPButton(mainFrame)
-    createSpeedHackButton(mainFrame)  -- Adiciona o botão SpeedHack
-    createShinraKillButton(mainFrame) -- Adiciona o botão Shinra Kill
+    createSpeedHackButton(mainFrame)  
+    createShinraKillButton(mainFrame) 
 end
 
--- Criar OreHUB ao iniciar
 createOreHUB()
 
--- Detecta quando o jogador pressiona as teclas
 userInputService.InputBegan:Connect(function(input, isProcessed)
     if isProcessed then return end
 
     if input.KeyCode == Enum.KeyCode.G then
         if kamuiActivated then
-            -- Ativa KamuiTP se estiver verde
             local targetPosition = mouse.Hit.p
             createKamuiTPBall(targetPosition)
         end
     elseif input.KeyCode == Enum.KeyCode.B then
         if shinraTenseiActivated then
-            -- Ativa ShinraTensei se estiver verde
             createKillBall()
         end
     elseif input.KeyCode == Enum.KeyCode.F then
         if kamuiUPActivated then
-            -- Ativa KamuiUP se estiver verde
             createPartAbovePlayer()
         end
     elseif input.KeyCode == Enum.KeyCode.H then
         if speedHackActivated then
-            -- Ativa SpeedHack se estiver verde
             local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
             if humanoid then
-                -- Garantir que o caminho para "Movement + Swim" exista
                 local movementPath = workspace:WaitForChild("Characters"):WaitForChild(player.Name):FindFirstChild("Movement + Swim")
                 if movementPath then
-                    movementPath:Destroy() -- Remove "Movement + Swim"
+                    movementPath:Destroy()
                 end
-                humanoid.WalkSpeed = 250  -- Define a velocidade de caminhada para 250
+                humanoid.WalkSpeed = 250
             end
         else
-            -- Desativa SpeedHack se estiver cinza
             local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
             if humanoid then
-                humanoid.WalkSpeed = 16  -- Volta para a velocidade normal (16 é o valor padrão)
+                humanoid.WalkSpeed = 50 
             end
         end
     elseif input.KeyCode == Enum.KeyCode.L then
-        -- Alternar visibilidade do OreHUB
         local mainFrame = oreHUB:FindFirstChild("Frame")
         if mainFrame then
             mainFrame.Visible = not mainFrame.Visible
