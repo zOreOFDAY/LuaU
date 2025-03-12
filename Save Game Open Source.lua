@@ -9,7 +9,7 @@ screenGui.Name = "DownloadGameGui"
 
 local button = Instance.new("TextButton")
 button.Parent = screenGui
-button.Size = UDim2.new(0, 150, 0, 50)
+button.Size = UDim2.new(0, 250, 0, 50)
 button.Position = UDim2.new(0.5, -75, 0.5, -25)
 button.Text = "Download Game By oRee Scripter"
 button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
