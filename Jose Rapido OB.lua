@@ -1,3 +1,7 @@
+-- Captura o parâmetro recebido (força do F). Se não for passado, usa 185.
+local args = {...}
+local forceF = tonumber(args[1]) or 185
+
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -159,17 +163,16 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         end)
 
     elseif input.KeyCode == Enum.KeyCode.F then
-        -- Botão F: Chute com o [1] de 185 e depois apagar o cabelo de todo mundo
+        -- Botão F: Chute utilizando a força definida (forceF) e depois apagar o cabelo de todo mundo
         local anim = Instance.new("Animation")
-        -- Aqui você pode inserir a AnimationId desejada posteriormente
-        anim.AnimationId = "rbxassetid://73458422902325"
+        anim.AnimationId = "rbxassetid://73458422902325"  -- AnimationId definido
         local animTrack = humanoid:LoadAnimation(anim)
         animTrack:Play()
         
         wait(0.4)
         
         local args = {
-            [1] = 300,
+            [1] = forceF,  -- força definida via parâmetro
             [4] = Vector3.new(-0.9431575536727905, -0.006543041206896305, 0.33228161931037903)
         }
         ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services")
@@ -180,7 +183,6 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         for _, plr in pairs(Players:GetPlayers()) do
             if plr.Character then
                 for _, item in ipairs(plr.Character:GetChildren()) do
-                    -- Se o item for um Accessory e seu nome contiver "Hair" (ou for exatamente "Hair"), remove-o
                     if item:IsA("Accessory") and string.find(item.Name, "Hair") then
                         item:Destroy()
                     end
