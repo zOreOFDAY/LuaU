@@ -1,6 +1,5 @@
--- Captura o parâmetro recebido (força do F). Se não for passado, usa 185.
-local args = {...}
-local forceF = tonumber(args[1]) or 185
+-- Usa _G.forceF se existir, caso contrário usa 185.
+local forceF = _G.forceF or 185
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -172,7 +171,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         wait(0.4)
         
         local args = {
-            [1] = forceF,  -- força definida via parâmetro
+            [1] = forceF,  -- força definida via _G.forceF (ou 185 padrão)
             [4] = Vector3.new(-0.9431575536727905, -0.006543041206896305, 0.33228161931037903)
         }
         ReplicatedStorage:WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services")
